@@ -45,8 +45,10 @@ public class Plugin : BaseUnityPlugin
         if (InputManager.GetButton("Jump").Pressed)
         {
             var player = ENT_Player.GetPlayer();
-            if (player.IsGrounded(true) || player.IsHanging())
-                player.Jump();
+            var canJumpBoost = player.IsCrouching() && player.curBuffs.GetBuff("addJumpBoost") > 0.0 && player.IsGrounded(true) && player.GetLowestGripStrength() > 2.0; // Taken from decompiled code
+            if ((player.IsGrounded(true) || player.IsHanging())
+                && !player.IsFlying() && !player.IsSwimming() && !player.noclip)
+                player.Jump(canJumpBoost);
         }
     }
 }
