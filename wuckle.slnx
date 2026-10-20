@@ -1,0 +1,7 @@
+<Solution>
+  <Project Path="AntiAntiCheat/AntiAntiCheat.csproj" />
+  <Project Path="ConsistentSensitivity/ConsistentSensitivity.csproj" />
+  <Project Path="DevMode/DevMode.csproj" />
+  <Project Path="PocketHammer/PocketHammer.csproj" />
+  <Project Path="UnlimitedTrinkets/UnlimitedTrinkets.csproj" />
+</Solution>
