@@ -2,7 +2,7 @@
     "name": "ConsistentSensitivity",
     "version_number": "1.0.0",
     "website_url": "https://github.com/DEATHB4DEFEAT/White-Knuckle-Mods/tree/master/ConsistentSensitivity",
-    "description": "Makes grabbing stuff not lower your sensitivity",
+    "description": "Makes grabbing stuff like boards not lower your sensitivity",
     "dependencies": [
         "BepInEx-BepInExPack-5.4.2305"
     ]

@@ -1,3 +1,3 @@
 # Consistent Sensitivity
 
-Makes grabbing stuff not lower your sensitivity.
+Makes grabbing stuff like boards not lower your sensitivity.
