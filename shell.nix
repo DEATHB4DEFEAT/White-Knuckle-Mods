@@ -14,6 +14,7 @@ let
   dependencies = with pkgs; [
     dotnetCorePackages.sdk_8_0
     dotnetPackages.Nuget
+    zip
   ];
 in
 pkgs.mkShell {
