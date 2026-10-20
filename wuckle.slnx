@@ -1,5 +1,6 @@
 <Solution>
   <Project Path="AntiAntiCheat/AntiAntiCheat.csproj" />
+  <Project Path="AutoHop/AutoHop.csproj" />
   <Project Path="ConsistentSensitivity/ConsistentSensitivity.csproj" />
   <Project Path="DevMode/DevMode.csproj" />
   <Project Path="PocketHammer/PocketHammer.csproj" />

@@ -15,25 +15,34 @@ public static class Pluginfo
 [BepInPlugin(Pluginfo.guid, Pluginfo.name, Pluginfo.version)]
 public class Plugin : BaseUnityPlugin
 {
-    private new static ManualLogSource _logger;
+    private static ManualLogSource _logger;
+    private static Harmony _harmony;
 
-    private static ConfigEntry<SettingsManager.BuildType> GameBuildType; 
+    public static ConfigEntry<SettingsManager.BuildType> GameBuildType;
 
     private void Awake()
     {
         _logger = Logger;
 
-        GameBuildType = Config.Bind("gwomp", "GameBuildType", SettingsManager.BuildType.dev,
+        GameBuildType = Config.Bind(Pluginfo.guid, nameof(GameBuildType), SettingsManager.BuildType.dev,
             "Whether to put the game in standard or dev mode");
 
-        Harmony harmony = new(Pluginfo.guid);
-        harmony.PatchAll();
+        _harmony = new(Pluginfo.guid);
+        _harmony.PatchAll();
         #if DEBUG
-        foreach (var method in harmony.GetPatchedMethods())
+        foreach (var method in _harmony.GetPatchedMethods())
             _logger.LogDebug($"{Pluginfo.guid}: patched ${method.Name}");
         #endif
 
-        _logger.LogInfo($"Plugin {Pluginfo.guid} is loaded!");
+        _logger.LogInfo($"Plugin {Pluginfo.guid} has loaded");
+    }
+
+    private void OnDestroy()
+    {
+        _harmony?.UnpatchSelf();
+        var buildType = Traverse.Create<SettingsManager>().Field(nameof(SettingsManager.buildType));
+        buildType.SetValue(SettingsManager.BuildType.standard);
+        _logger.LogInfo($"Plugin {Pluginfo.guid} has unloaded");
     }
 
     // private void Update()
@@ -48,7 +57,7 @@ public class Plugin : BaseUnityPlugin
     {
         public static bool Prefix()
         {
-            return !(GameBuildType.Value == SettingsManager.BuildType.dev);
+            return GameBuildType.Value != SettingsManager.BuildType.dev;
         }
     }
 }

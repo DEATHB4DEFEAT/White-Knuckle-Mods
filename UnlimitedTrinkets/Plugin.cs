@@ -15,7 +15,7 @@ public static class Pluginfo
 [BepInPlugin(Pluginfo.guid, Pluginfo.name, Pluginfo.version)]
 public class Plugin : BaseUnityPlugin
 {
-    private new static ManualLogSource _logger;
+    private static ManualLogSource _logger;
 
     private void Awake()
     {
@@ -28,7 +28,7 @@ public class Plugin : BaseUnityPlugin
             _logger.LogDebug($"{Pluginfo.guid}: patched ${method.Name}");
         #endif
 
-        _logger.LogInfo($"Plugin {Pluginfo.guid} is loaded!");
+        _logger.LogInfo($"Plugin {Pluginfo.guid} has loaded");
     }
 
     [HarmonyPatch(typeof(UI_TrinketPicker), "SelectTrinket")]

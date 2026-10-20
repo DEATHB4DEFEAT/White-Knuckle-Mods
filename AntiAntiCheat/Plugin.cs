@@ -15,23 +15,31 @@ public static class Pluginfo
 [BepInPlugin(Pluginfo.guid, Pluginfo.name, Pluginfo.version)]
 public class Plugin : BaseUnityPlugin
 {
-    private new static ManualLogSource _logger;
+    private static ManualLogSource _logger;
+    private static Harmony _harmony;
 
     private void Awake()
     {
         _logger = Logger;
 
-        Harmony harmony = new(Pluginfo.guid);
-        harmony.PatchAll();
+        _harmony = new(Pluginfo.guid);
+        _harmony.PatchAll();
         #if DEBUG
-        foreach (var method in harmony.GetPatchedMethods())
+        foreach (var method in _harmony.GetPatchedMethods())
             _logger.LogDebug($"{Pluginfo.guid}: patched ${method.Name}");
         #endif
 
-        _logger.LogInfo($"Plugin {Pluginfo.guid} is loaded!");
+        _logger.LogInfo($"Plugin {Pluginfo.guid} has loaded");
+    }
+
+    private void OnDestroy()
+    {
+        _harmony?.UnpatchSelf();
+        _logger.LogInfo($"Plugin {Pluginfo.guid} has unloaded");
     }
 
     //TODO: Figure out how to prioritize this plugin's patches over others
+    //TODO: Hide "Cheats Enabled" in corner of screen
     [HarmonyPatch(typeof(CommandConsole))]
     public static class CommandConsolePatches
     {
