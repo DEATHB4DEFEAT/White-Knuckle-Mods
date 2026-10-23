@@ -3,6 +3,7 @@ using System.Reflection;
 using BepInEx;
 using BepInEx.Logging;
 using HarmonyLib;
+using UnityEngine;
 
 namespace AntiAntiCheat;
 
@@ -55,7 +56,7 @@ public class Plugin : BaseUnityPlugin
     }
 
     [HarmonyPatch(typeof(CL_SaveManager), "LoadSession")]
-    public static class SaveManagerPatches
+    public static class SaveManagerPatch
     {
         public static void Postfix()
         {
@@ -73,6 +74,18 @@ public class Plugin : BaseUnityPlugin
                 .GetNestedType("CommandUsageKind", BindingFlags.NonPublic), "MayUse");
 
             return false;
+        }
+    }
+
+    [HarmonyPatch(typeof(GameObject), nameof(GameObject.SetActive))]
+    class CheatTrackerPatch
+    {
+        static void Prefix(GameObject __instance, ref bool value)
+        {
+            var uiManager = CL_UIManager.instance;
+
+            if (uiManager != null && uiManager.cheatTracker != null && __instance == uiManager.cheatTracker)
+                value = false;
         }
     }
 }
