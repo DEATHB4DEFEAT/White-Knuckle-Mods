@@ -28,7 +28,7 @@ public class Plugin : BaseUnityPlugin
         _harmony.PatchAll();
         #if DEBUG
         foreach (var method in _harmony.GetPatchedMethods())
-            _logger.LogDebug($"{Pluginfo.guid}: patched ${method.Name}");
+            _logger.LogInfo($"{Pluginfo.guid}: patched {method.Name}");
         #endif
 
         _logger.LogInfo($"Plugin {Pluginfo.guid} has loaded");
@@ -42,6 +42,7 @@ public class Plugin : BaseUnityPlugin
 
     private void Update()
     {
+        if (ENT_Player.GetPlayer() == null) return;
         if (InputManager.GetButton("Jump").Pressed)
         {
             var player = ENT_Player.GetPlayer();
