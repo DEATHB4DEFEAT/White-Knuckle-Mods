@@ -31,10 +31,6 @@
     <Reference Include="ALINE">
       <HintPath>/home/death/.local/share/Steam/steamapps/common/White Knuckle/White Knuckle_Data/Managed/ALINE.dll</HintPath>
     </Reference>
-    <Reference Include="WKRace">
-      <HintPath>../.dependencies/WKRace.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
   </ItemGroup>
   
   <ItemGroup Condition="'$(TargetFramework.TrimEnd(`0123456789`))' == 'net'">

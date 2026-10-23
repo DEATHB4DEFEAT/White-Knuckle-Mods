@@ -1,5 +1,6 @@
-﻿using BepInEx;
-using BepInEx.Configuration;
+﻿using System;
+using System.Reflection;
+using BepInEx;
 using BepInEx.Logging;
 using HarmonyLib;
 
@@ -26,7 +27,7 @@ public class Plugin : BaseUnityPlugin
         _harmony.PatchAll();
         #if DEBUG
         foreach (var method in _harmony.GetPatchedMethods())
-            _logger.LogDebug($"{Pluginfo.guid}: patched ${method.Name}");
+            _logger.LogInfo($"{Pluginfo.guid}: patched {method.Name}");
         #endif
 
         _logger.LogInfo($"Plugin {Pluginfo.guid} has loaded");
@@ -38,8 +39,7 @@ public class Plugin : BaseUnityPlugin
         _logger.LogInfo($"Plugin {Pluginfo.guid} has unloaded");
     }
 
-    //TODO: Figure out how to prioritize this plugin's patches over others
-    //TODO: Hide "Cheats Enabled" in corner of screen
+
     [HarmonyPatch(typeof(CommandConsole))]
     public static class CommandConsolePatches
     {
@@ -49,7 +49,7 @@ public class Plugin : BaseUnityPlugin
         [HarmonyPostfix]
         public static void AllowCheatsPostfix(object __instance)
         {
-            CommandConsole.cheatsEnabled = true;
+            CommandConsole.cheatsEnabled = false;
             CommandConsole.hasCheated = false;
         }
     }
@@ -59,17 +59,20 @@ public class Plugin : BaseUnityPlugin
     {
         public static void Postfix()
         {
-            CommandConsole.cheatsEnabled = true;
+            CommandConsole.cheatsEnabled = false;
             CommandConsole.hasCheated = false;
         }
     }
 
-    [HarmonyPatch(typeof(SteamManager), "UploadGamemodeResults")]
-    public static class SteamManagerPatches
+    [HarmonyPatch(typeof(CommandConsole), "MayUseCommand")]
+    public class CommandConsolePatch
     {
-        public static bool Prefix()
+        public static bool Prefix(ref object __result)
         {
-            return true;
+            __result = Enum.Parse(typeof(CommandConsole)
+                .GetNestedType("CommandUsageKind", BindingFlags.NonPublic), "MayUse");
+
+            return false;
         }
     }
 }

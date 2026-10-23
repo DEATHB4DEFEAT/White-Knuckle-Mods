@@ -12,7 +12,7 @@
 
 let
   dependencies = with pkgs; [
-    dotnetCorePackages.sdk_8_0
+    dotnetCorePackages.sdk_9_0
     dotnetPackages.Nuget
     zip
   ];
@@ -22,7 +22,7 @@ pkgs.mkShell {
   packages = dependencies;
   shellHook = ''
     export LD_LIBRARY_PATH=${pkgs.lib.makeLibraryPath dependencies}
-    export DOTNET_ROOT=${pkgs.dotnetCorePackages.sdk_8_0}
+    export DOTNET_ROOT=${pkgs.dotnetCorePackages.sdk_9_0}
     export PATH="$PATH:/home/$(whoami)/.dotnet/tools"
   '';
 }
