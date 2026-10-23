@@ -1,6 +1,6 @@
 {
     "name": "AntiAntiCheat",
-    "version_number": "1.0.0",
+    "version_number": "1.1.0",
     "website_url": "https://github.com/DEATHB4DEFEAT/White-Knuckle-Mods/tree/master/AntiAntiCheat",
     "description": "Disables disabling leaderboard submission and always allows cheat console commands",
     "dependencies": [
