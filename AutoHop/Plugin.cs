@@ -1,4 +1,5 @@
-﻿using BepInEx;
+﻿using System.Reflection;
+using BepInEx;
 using BepInEx.Logging;
 using HarmonyLib;
 
@@ -8,7 +9,7 @@ public static class Pluginfo
 {
     public const string guid = "win.deathis.autohop";
     public const string name = "Auto Hop";
-    public const string version = "1.0.0";
+    public const string version = "1.0.2";
 }
 
 [BepInPlugin(Pluginfo.guid, Pluginfo.name, Pluginfo.version)]
@@ -37,16 +38,26 @@ public class Plugin : BaseUnityPlugin
         _logger.LogInfo($"Plugin {Pluginfo.guid} has unloaded");
     }
 
+    private static readonly FieldInfo HasJumped = AccessTools.Field(typeof(ENT_Player), "hasJumped");
+    private bool _wasGroundedOrHanging;
+    private bool _isGrounded;
     private void Update()
     {
-        if (!ENT_Player.GetPlayer()) return;
-        if (InputManager.GetButton("Jump").Pressed)
+        var player = ENT_Player.GetPlayer();
+        if (!player)
         {
-            var player = ENT_Player.GetPlayer();
-            var canJumpBoost = player.IsCrouching() && player.curBuffs.GetBuff("addJumpBoost") > 0.0 && player.IsGrounded(true) && player.GetLowestGripStrength() > 2.0; // Taken from decompiled code
-            if ((player.IsGrounded(true) || player.IsHanging())
-                && !player.IsFlying() && !player.IsSwimming() && !player.noclip)
-                player.Jump(canJumpBoost);
+            _isGrounded = false;
+            return;
         }
+
+        var isGroundedOrHanging = player.IsGrounded() || player.IsHanging();
+        var justLanded = _isGrounded && isGroundedOrHanging && !_wasGroundedOrHanging;
+        _wasGroundedOrHanging = isGroundedOrHanging;
+        _isGrounded = true;
+        if (!InputManager.GetButton("Jump").Pressed || !justLanded
+            || player.IsFlying() || player.IsSwimming() || player.noclip)
+            return;
+
+        HasJumped.SetValue(player, false);
     }
 }

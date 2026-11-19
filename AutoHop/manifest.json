@@ -1,6 +1,6 @@
 {
     "name": "AutoHop",
-    "version_number": "1.0.1",
+    "version_number": "1.0.2",
     "website_url": "https://github.com/DEATHB4DEFEAT/White-Knuckle-Mods/tree/master/AutoHop",
     "description": "Automatically jumps whenever reasonable while holding the game's jump button",
     "dependencies": [
