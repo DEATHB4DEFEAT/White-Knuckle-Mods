@@ -4,7 +4,7 @@
     <TargetFramework>net472</TargetFramework>
     <AssemblyName>UnlimitedTrinkets</AssemblyName>
     <Product>UnlimitedTrinkets</Product>
-    <Version>1.0.0</Version>
+    <Version>1.1.0</Version>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <LangVersion>latest</LangVersion>
     <RestoreAdditionalProjectSources>
@@ -27,6 +27,9 @@
   <ItemGroup>
     <Reference Include="Assembly-CSharp">
       <HintPath>/home/death/.local/share/Steam/steamapps/common/White Knuckle/White Knuckle_Data/Managed/Assembly-CSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.VisualScripting.Core">
+      <HintPath>/home/death/.local/share/Steam/steamapps/common/White Knuckle/White Knuckle_Data/Managed/Unity.VisualScripting.Core.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UI">
       <HintPath>/home/death/.local/share/Steam/steamapps/common/White Knuckle/White Knuckle_Data/Managed/UnityEngine.UI.dll</HintPath>

@@ -1,9 +1,6 @@
 ﻿using BepInEx;
-using BepInEx.Configuration;
 using BepInEx.Logging;
 using HarmonyLib;
-using UnityEngine;
-using UnityEngine.PlayerLoop;
 
 namespace AutoHop;
 
@@ -42,7 +39,7 @@ public class Plugin : BaseUnityPlugin
 
     private void Update()
     {
-        if (ENT_Player.GetPlayer() == null) return;
+        if (!ENT_Player.GetPlayer()) return;
         if (InputManager.GetButton("Jump").Pressed)
         {
             var player = ENT_Player.GetPlayer();
