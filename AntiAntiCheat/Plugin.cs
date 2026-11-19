@@ -11,7 +11,7 @@ public static class Pluginfo
 {
     public const string guid = "win.deathis.antianticheat";
     public const string name = "Anti Anti-Cheat";
-    public const string version = "1.0.0";
+    public const string version = "1.1.0";
 }
 
 [BepInPlugin(Pluginfo.guid, Pluginfo.name, Pluginfo.version)]
